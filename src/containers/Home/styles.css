@@ -1,0 +1,16 @@
+:root {
+  --main-color: #934acc;
+}
+
+.Home {
+  padding: 25px;
+}
+
+.wrapper {
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+
+.ui.card > .image, .ui.cards>.card>.image {
+  background-color: rgba(var(--main-color), 0.5);
+}
