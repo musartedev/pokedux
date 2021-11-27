@@ -3,14 +3,12 @@ import { Grid } from 'semantic-ui-react';
 import PokemonCard from './PokemonCard';
 import './styles.css';
 
-const PokemonList = () => {
-  const pokemons = Array(20).fill({});
-
+const PokemonList = ({ pokemons }) => {
   return (
     <div className='wrapper'>
       <Grid>
         {pokemons.map((pokemon, index) => {
-          return <PokemonCard key={`pokemon-${index}`} />;
+          return <PokemonCard pokemon={pokemon} key={`pokemon-${index}`} />;
         })}
       </Grid>
     </div>
