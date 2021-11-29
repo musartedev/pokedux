@@ -1,19 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import Searcher from '../../components/Searcher';
 import PokemonList from '../../components/PokemonList';
 import { getPokemons } from '../../api/getPokemons';
-import { setPokemons } from '../../actions';
+import { setPokemons as setPokemonsAction } from '../../actions';
 import './styles.css';
 
-function Home() {
-  const pokemons = useSelector((state) => state.list);
-  const dispatch = useDispatch();
+const mapStateToProps = (state) => ({
+  pokemons: state.list,
+});
 
+const mapDispatchToProps = (dispatch) => ({
+  setPokemons: (value) => dispatch(setPokemonsAction(value)),
+});
+
+function Home({ setPokemons, pokemons }) {
   useEffect(() => {
     getPokemons().then((res) => {
-      dispatch(setPokemons(res.results));
+      setPokemons(res.results);
     });
   }, []);
 
@@ -25,4 +30,8 @@ function Home() {
   );
 }
 
-export default Home;
+Home.defaultProps = {
+  pokemons: [],
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
