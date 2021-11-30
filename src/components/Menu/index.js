@@ -4,7 +4,7 @@ import logo from '../../statics/images/logo_v4.svg';
 
 const Menu = () => {
   return (
-    <SemanticMenu fixed='top'>
+    <SemanticMenu>
       <Container>
         <SemanticMenu.Item to='/'>
           <Image size='small' src={logo} />
