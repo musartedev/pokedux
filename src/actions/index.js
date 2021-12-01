@@ -1,5 +1,11 @@
-import { getPokemonsWithDetails } from '../api/getPokemons';
-import { SET_POKEMONS, SET_ERROR, CLEAR_ERROR, SET_FAVORITE } from './types';
+import { getPokemons, getPokemonsWithDetails } from '../api/getPokemons';
+import {
+  SET_POKEMONS,
+  SET_ERROR,
+  CLEAR_ERROR,
+  SET_FAVORITE,
+  TOGGLE_LOADER,
+} from './types';
 
 export const setPokemons = (payload) => ({
   type: SET_POKEMONS,
@@ -21,13 +27,20 @@ export const setFavorite = (payload) => ({
   payload,
 });
 
-export const fetchPokemonsWithDetails =
-  (pokemons = []) =>
-  async (dispatch) => {
-    try {
-      const pokemonsWithDetails = await getPokemonsWithDetails(pokemons);
-      dispatch(setPokemons(pokemonsWithDetails));
-    } catch (error) {
-      dispatch(setError({ message: 'Oops! Something went wrong.', error }));
-    }
-  };
+export const toggleLoader = () => ({
+  type: TOGGLE_LOADER,
+});
+
+export const fetchPokemonsWithDetails = () => async (dispatch) => {
+  try {
+    dispatch(toggleLoader());
+    const response = await getPokemons();
+    const pokemons = response.results;
+    const pokemonsWithDetails = await getPokemonsWithDetails(pokemons);
+    dispatch(setPokemons(pokemonsWithDetails));
+    dispatch(toggleLoader());
+  } catch (error) {
+    dispatch(setError({ message: 'Oops! Something went wrong.', error }));
+    dispatch(toggleLoader());
+  }
+};

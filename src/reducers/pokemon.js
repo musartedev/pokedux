@@ -3,9 +3,11 @@ import {
   SET_ERROR,
   CLEAR_ERROR,
   SET_FAVORITE,
+  TOGGLE_LOADER,
 } from '../actions/types';
 const initialState = {
   list: [],
+  loading: false,
   error: '',
 };
 
@@ -27,6 +29,8 @@ export const pokemonReducer = (state = initialState, action) => {
       return { ...state, error: action.payload.message };
     case CLEAR_ERROR:
       return { ...state, error: '' };
+    case TOGGLE_LOADER:
+      return { ...state, loading: !state.loading };
     default:
       return state;
   }
