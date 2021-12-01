@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { getPokemonsWithDetails } from '../api/getPokemons';
 import { SET_POKEMONS, SET_ERROR, CLEAR_ERROR } from './types';
 
 export const setPokemons = (payload) => ({
@@ -16,17 +16,11 @@ export const clearError = (payload) => ({
   payload,
 });
 
-export const setPokemonsWithDetails =
+export const fetchPokemonsWithDetails =
   (pokemons = []) =>
   async (dispatch) => {
     try {
-      const pokemonsWithDetails = await Promise.all(
-        pokemons.map(async (pokemon) => {
-          const pokemonDetail = await axios.get(pokemon.url);
-          return pokemonDetail.data;
-        })
-      );
-
+      const pokemonsWithDetails = await getPokemonsWithDetails(pokemons);
       dispatch(setPokemons(pokemonsWithDetails));
     } catch (error) {
       dispatch(setError({ message: 'Oops! Something went wrong.', error }));
