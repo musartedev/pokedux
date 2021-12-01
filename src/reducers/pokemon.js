@@ -5,32 +5,38 @@ import {
   SET_FAVORITE,
   TOGGLE_LOADER,
 } from '../actions/types';
-const initialState = {
+import { fromJS } from 'immutable';
+
+const initialState = fromJS({
   list: [],
   loading: false,
   error: '',
-};
+});
 
 export const pokemonReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_POKEMONS:
-      return { ...state, list: action.payload };
+      return state.setIn(['list'], fromJS(action.payload));
     case SET_FAVORITE:
-      const newPokemonList = [...state.list];
-      const currentPokemonIndex = newPokemonList.findIndex(
-        (elem) => elem.id === action.payload.pokemonId
-      );
-      if (currentPokemonIndex >= 0) {
-        newPokemonList[currentPokemonIndex].favorite = true;
-      }
+      const currentPokemonIndex = state
+        .get('list')
+        .findIndex((elem) => elem.get('id') === action.payload.pokemonId);
 
-      return { ...state, list: newPokemonList };
+      const isFavorite = state
+        .get('list')
+        .get(currentPokemonIndex)
+        .get('favorite');
+
+      return state.setIn(
+        ['list', currentPokemonIndex, 'favorite'],
+        !isFavorite
+      );
     case SET_ERROR:
-      return { ...state, error: action.payload.message };
+      return state.set('error', action.payload.message);
     case CLEAR_ERROR:
-      return { ...state, error: '' };
+      return state.set('error', '');
     case TOGGLE_LOADER:
-      return { ...state, loading: !state.loading };
+      return state.set('loading', !state.get('loading'));
     default:
       return state;
   }
