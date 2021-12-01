@@ -13,7 +13,13 @@ const PokemonCard = ({ pokemon }) => {
         <Image centered src={pokemon.sprites.front_default} />
         <h2 className='PokemonCard-title'>{pokemon.name}</h2>
         <Divider />
-        <Label color={MAIN_COLOR}>normal</Label>
+        {pokemon.types.map(({ type }) => {
+          return (
+            <Label color={MAIN_COLOR} key={`${pokemon.id}-${type.name}`}>
+              {type.name}
+            </Label>
+          );
+        })}
       </div>
     </Grid.Column>
   );
