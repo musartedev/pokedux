@@ -1,5 +1,5 @@
 import { getPokemonsWithDetails } from '../api/getPokemons';
-import { SET_POKEMONS, SET_ERROR, CLEAR_ERROR } from './types';
+import { SET_POKEMONS, SET_ERROR, CLEAR_ERROR, SET_FAVORITE } from './types';
 
 export const setPokemons = (payload) => ({
   type: SET_POKEMONS,
@@ -13,6 +13,11 @@ export const setError = (payload) => ({
 
 export const clearError = (payload) => ({
   type: CLEAR_ERROR,
+  payload,
+});
+
+export const setFavorite = (payload) => ({
+  type: SET_FAVORITE,
   payload,
 });
 
