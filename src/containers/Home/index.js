@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import Searcher from '../../components/Searcher';
 import PokemonList from '../../components/PokemonList';
 import { getPokemons } from '../../api/getPokemons';
@@ -14,10 +15,19 @@ function Home() {
   useEffect(() => {
     getPokemons()
       .then((res) => {
-        dispatch(setPokemons(res.results));
+        const pokemonList = res.results;
+        return Promise.all(
+          pokemonList.map((pokemon) => axios.get(pokemon.url))
+        );
+      })
+      .then((pokemonResponses) => {
+        const pokemonsWithDetails = pokemonResponses.map(
+          (response) => response.data
+        );
+        dispatch(setPokemons(pokemonsWithDetails));
       })
       .catch((error) => {
-        dispatch(setError({ message: 'Ocurrió un error' , error}));
+        dispatch(setError({ message: 'Ocurrió un error', error }));
       });
   }, []);
 
