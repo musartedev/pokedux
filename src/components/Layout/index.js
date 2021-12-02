@@ -7,7 +7,7 @@ import Menu from '../Menu';
 import './styles.css';
 
 const Layout = ({ children }) => {
-  const errorMessage = useSelector((state) => state.error);
+  const errorMessage = useSelector((state) => state.ui.error);
   const dispatch = useDispatch();
 
   const handleDismiss = () => {
