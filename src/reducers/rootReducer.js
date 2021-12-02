@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import { pokemonReducer } from './pokemon';
-import { uiReducer } from './ui';
+import pokemonReducer from '../slices/pokemon';
+import uiReducer from '../slices/ui';
 
-export default combineReducers({
+const rootReducer = combineReducers({
   pokemon: pokemonReducer,
   ui: uiReducer,
 });
+
+export default rootReducer;

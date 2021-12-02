@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Image, Label, Divider, Grid, Icon } from 'semantic-ui-react';
-import { setFavorite } from '../../actions';
+import { setFavorite } from '../../slices/pokemon';
 import { FAV_COLOR, MAIN_COLOR, DEFAULT_COLOR } from '../../utils/constants';
 import './styles.css';
 
